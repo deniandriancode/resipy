@@ -3,7 +3,7 @@ import os
 import sys
 from PIL import Image, ImageSequence
 
-RESYTHON_VERSION = "1.0.0"
+RESYTHON_VERSION = "0.1.0"
 
 image_format = {
     "jpg": "JPEG",
