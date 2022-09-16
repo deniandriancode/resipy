@@ -3,7 +3,9 @@
 Command line utility to resize multiple images  
 
 ```
-usage: resipy [-h] [-q | -v | -V] [-t | -r] [-p PERCENT | -s WIDTH HEIGHT] [-n NAME] [FILE ...]
+usage: resipy [-h] [-q | -v | -V] [-t | -r] [-p PERCENT | -s WIDTH HEIGHT]
+              [-n [NAME ...]] [-f]
+              [FILE ...]
 
 Command line utility to resize multiple images
 
@@ -20,8 +22,10 @@ options:
   -p PERCENT, --percent PERCENT
                         specify the output size by percentage (0.0 - 1.0)
   -s WIDTH HEIGHT, --size WIDTH HEIGHT
-                        specify the output size in pixel, if used with `-t`flag, it will take the
-                        smallest value (default 400 240)
-  -n NAME, --name NAME  specify the output name, will not change the extension
-  ```
-
+                        specify the output size in pixel, if used with
+                        `-t`flag, it will take the smallest value (default 400
+                        240)
+  -n [NAME ...], --name [NAME ...]
+                        specify the output name, will not change the extension
+  -f, --force           override/replace the output file if exists
+```
