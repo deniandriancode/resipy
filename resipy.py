@@ -46,40 +46,38 @@ def verbose_message(input_name, output_name):
         return 0
 
 
-def write_gif(outfile, size, args):
+def write_gif(outfile, size, args, input_file):
         """GIF image resizer"""
-        filenames = args.FILE
         is_thumbnail = args.t
-        for filename in filenames:
-                im = Image.open(filename)
-                frames = ImageSequence.Iterator(im)
-                file_extension = os.path.splitext(filename)[1][1:].lower()
+        im = Image.open(input_file)
+        frames = ImageSequence.Iterator(im)
+        file_extension = os.path.splitext(input_file)[1][1:].lower()
 
-                arr = []
-                if is_thumbnail:
-                        for frame in frames:
-                                tmp = frame.copy()
-                                tmp.thumbnail(size, resample=Image.Resampling.LANCZOS)
-                                arr.append(tmp)
-                else:
-                        for frame in frames:
-                                tmp = frame.copy()
-                                resized = tmp.resize(size)
-                                arr.append(resized)
+        arr = []
+        if is_thumbnail:
+                for frame in frames:
+                        tmp = frame.copy()
+                        tmp.thumbnail(size, resample=Image.Resampling.LANCZOS)
+                        arr.append(tmp)
+        else:
+                for frame in frames:
+                        tmp = frame.copy()
+                        resized = tmp.resize(size)
+                        arr.append(resized)
 
-                om = arr[0]  # copy the first frame
-                om.info = im.info
-                if args.verbose:
-                        verbose_message(filename, outfile)
-                elif args.quite:
-                        pass
-                else:
-                        normal_message(filename, outfile)
+        om = arr[0]  # copy the first frame
+        om.info = im.info
+        if args.verbose:
+                verbose_message(input_file, outfile)
+        elif args.quite:
+                pass
+        else:
+                normal_message(input_file, outfile)
 
-                if is_thumbnail:
-                        om.save(outfile, format=image_format[file_extension], save_all=True, append_images=arr)
-                else:
-                        om.save(outfile, save_all=True, append_images=arr)
+        if is_thumbnail:
+                om.save(outfile, format=image_format[file_extension], save_all=True, append_images=arr)
+        else:
+                om.save(outfile, save_all=True, append_images=arr)
 
         return 0
 
@@ -134,7 +132,7 @@ def write_base(filename, outfile, file_extension, args):
                                 print(f"Value `percent` cannot be less than or equals to zero\nTry `{PROG_NAME} --help` for more information")
 
                         if file_extension == 'gif':
-                                write_gif(outfile, output_size, args)
+                                write_gif(outfile, output_size, args, filename)
                         else:
                                 output_options = {
                                                 "outfile": outfile,
@@ -155,7 +153,7 @@ def resize_image(image_files, arguments):
         output_size = arguments.size
         output_filename = arguments.name
         file_length = len(image_files)
-        name_length = len(output_filename)
+        name_length = len(output_filename) if output_filename else 0
         ls = os.listdir()
 
         if name_length == file_length:
@@ -191,11 +189,30 @@ def resize_image(image_files, arguments):
                                         sys.exit()
                         else: # else override the existing file
                                 # delete the existing file
-                                print(f"replacing '{outfile}'")
-                                os.system(f"rm \"{outfile}\"")
+                                if outfile in os.listdir():
+                                        print(f"replacing '{outfile}'")
+                                os.system(f"rm \"{outfile}\" &> resipy.log")
                                 write_base(img, outfile, file_extension, arguments)
                         
                         suffix_counter += 1
+        elif name_length == 0:
+                for img in image_files: # iterate through filename arguments
+                        file_extension = os.path.splitext(img)[-1][1:].lower()
+                        output_fin = os.path.splitext(img)[0]
+
+                        outfile = get_output_name(img, output_fin, arguments)
+
+                        if not arguments.force:  # if user did not use `-f` or `--force` flag, do the following
+                                if outfile not in ls:  # if output file doesn't exists, do the following
+                                        write_base(img, outfile, file_extension, arguments)
+                                else: # else (the output name is already exists) exit the program
+                                        print("Output file exists. To override or replace the existing file add `-f` flag")
+                                        sys.exit()
+                        else: # else override the existing file
+                                # delete the existing file
+                                print(f"replacing '{outfile}'")
+                                os.system(f"rm \"{outfile}\"")
+                                write_base(img, outfile, file_extension, arguments)
         else:
                 print("Number of file argument and output name didn't match. Failed to resize image")
                 sys.exit()
