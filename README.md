@@ -112,3 +112,4 @@ duck.png -> myduck.png
 ### TODO
 - more image support
 - proper verbose message
+- resize image to multiple size and name

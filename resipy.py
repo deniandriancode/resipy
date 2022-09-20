@@ -6,7 +6,7 @@ from PIL import Image, ImageSequence
 
 ###### GLOBAL VARIABELS ######
 PROG_NAME = "resipy"
-RESIPY_VERSION = "0.2.1"
+RESIPY_VERSION = "0.3.0"
 
 image_format = {
         "jpg": "JPEG",
@@ -25,7 +25,6 @@ image_format = {
 # indicate that it run successfully
 #
 # TODO : how to disable echo / print in python
-# TODO : gif image print bug
 # TODO : add image support
 # TODO : copy image to multiple names
 #
