@@ -2,18 +2,21 @@
 import argparse
 import os
 import sys
-from PIL import Image, ImageSequence
+from PIL import Image, ImageSequence, ImageTk
+import viewer
 
 ###### GLOBAL VARIABELS ######
 PROG_NAME = "resipy"
-RESIPY_VERSION = "0.3.0"
+RESIPY_VERSION = "0.3.1"
 
 image_format = {
         "jpg": "JPEG",
         "jpeg": "JPEG",
         "webp": "WEBP",
         "gif": "GIF",
-        "png": "PNG"
+        "png": "PNG",
+        # "ico": "ICO",
+        # "bmp": "BMP"
 }
 
 ######################### NOTES ###########################
@@ -27,6 +30,8 @@ image_format = {
 # TODO : how to disable echo / print in python
 # TODO : add image support
 # TODO : copy image to multiple names
+# TODO : image->gray
+# TODO : image viewer zoom
 #
 ###########################################################
 
@@ -165,12 +170,11 @@ def resize_image(image_files, arguments):
                                 if outfile not in ls:  # if output file doesn't exists, do the following
                                         write_base(img, outfile, file_extension, arguments)
                                 else: # else (the output name is already exists) exit the program
-                                        print("Output file exists. To override or replace the existing file add `-f` flag")
+                                        print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
                                 # delete the existing file
                                 print(f"replacing '{outfile}'")
-                                os.system(f"rm \"{outfile}\"")
                                 write_base(img, outfile, file_extension, arguments)
         elif name_length == 1:
                 suffix_counter = 0
@@ -184,13 +188,12 @@ def resize_image(image_files, arguments):
                                 if outfile not in ls:  # if output file doesn't exists, do the following
                                         write_base(img, outfile, file_extension, arguments)
                                 else: # else (the output name is already exists) exit the program
-                                        print("Output file exists. To override or replace the existing file add `-f` flag")
+                                        print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
                                 # delete the existing file
                                 if outfile in os.listdir():
                                         print(f"replacing '{outfile}'")
-                                os.system(f"rm \"{outfile}\" &> resipy.log")
                                 write_base(img, outfile, file_extension, arguments)
                         
                         suffix_counter += 1
@@ -205,12 +208,11 @@ def resize_image(image_files, arguments):
                                 if outfile not in ls:  # if output file doesn't exists, do the following
                                         write_base(img, outfile, file_extension, arguments)
                                 else: # else (the output name is already exists) exit the program
-                                        print("Output file exists. To override or replace the existing file add `-f` flag")
+                                        print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
                                 # delete the existing file
                                 print(f"replacing '{outfile}'")
-                                os.system(f"rm \"{outfile}\"")
                                 write_base(img, outfile, file_extension, arguments)
         else:
                 print("Number of file argument and output name didn't match. Failed to resize image")
@@ -239,6 +241,7 @@ def parse_args():
         parser.add_argument("FILE", help="image to resized", nargs="*")
         parser.add_argument("-n", "--name", help="specify the output name, will not change the extension", nargs="*")
         parser.add_argument("-f", "--force", help="override/replace the output file if exists", action="store_true", default=False)
+        parser.add_argument("-vw", "--view", help="open/view an image", action="store_true", default=False)
 
         args = parser.parse_args()
         image_files = args.FILE
@@ -253,7 +256,9 @@ def main():
                 print(f"{PROG_NAME} {RESIPY_VERSION}")
                 sys.exit()
 
-        if args.FILE:
+        if args.view:
+                viewer.view(image_files[0])
+        elif args.FILE:
                 resize_image(image_files, args)
         else:
                 print(f"{PROG_NAME}: missing file arguments\nTry `{PROG_NAME} --help` for more information")
