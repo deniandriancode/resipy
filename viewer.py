@@ -3,6 +3,14 @@ from PIL import Image, ImageTk, ImageSequence
 import os
 import sys
 
+def resize_activate(event, prev_size, l_label, l_img_pil):
+        win_size = prev_size.split("+")[0]
+        win_width, win_height = win_size.split("x")
+        # label.place_forget()
+        # image_pil.thumbnail(size=(event.width, event.width))
+        # label = tk.Label(root, image=image, anchor=tk.CENTER, bg=main_bg)
+        # label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
 def update_gif(index, frames, frame_count, l_label, l_root):
         frame = frames[index]
         index += 1
@@ -48,6 +56,7 @@ def view(filename):
         else:
                 max_img_size = max(image_pil.size)
 
+        root.bind('<Configure>', lambda event: resize_activate(event, root.geometry(), label, image_pil))
         root.title(f"resipy v0.3.0: {os.path.join(os.path.abspath('.'), filename)}")
         root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
         root.after(0, lambda: update_gif(0, frames, frame_count, label, root)) if extension == "gif" else 0
@@ -55,12 +64,6 @@ def view(filename):
 
         root.mainloop()
 
-# def resize_activate(event):
-        # label.place_forget()
-        # image_pil.thumbnail(size=(event.width, event.width))
-        # label = tk.Label(root, image=image, anchor=tk.CENTER, bg=main_bg)
-        # label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
-# root.bind('<Configure>', resize_activate)
 

@@ -15,8 +15,8 @@ image_format = {
         "webp": "WEBP",
         "gif": "GIF",
         "png": "PNG",
-        # "ico": "ICO",
-        # "bmp": "BMP"
+        "ico": "ICO",
+        "bmp": "BMP"
 }
 
 ######################### NOTES ###########################
@@ -173,7 +173,6 @@ def resize_image(image_files, arguments):
                                         print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
-                                # delete the existing file
                                 print(f"replacing '{outfile}'")
                                 write_base(img, outfile, file_extension, arguments)
         elif name_length == 1:
@@ -191,7 +190,6 @@ def resize_image(image_files, arguments):
                                         print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
-                                # delete the existing file
                                 if outfile in os.listdir():
                                         print(f"replacing '{outfile}'")
                                 write_base(img, outfile, file_extension, arguments)
@@ -211,7 +209,6 @@ def resize_image(image_files, arguments):
                                         print(f"Output file with name '{outfile}' exists. To override or replace the existing file add `-f` flag")
                                         sys.exit()
                         else: # else override the existing file
-                                # delete the existing file
                                 print(f"replacing '{outfile}'")
                                 write_base(img, outfile, file_extension, arguments)
         else:
