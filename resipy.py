@@ -7,7 +7,7 @@ import viewer
 
 ###### GLOBAL VARIABELS ######
 PROG_NAME = "resipy"
-RESIPY_VERSION = "0.3.1"
+RESIPY_VERSION = "0.4.0"
 
 image_format = {
         "jpg": "JPEG",
