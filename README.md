@@ -114,6 +114,7 @@ to view an image
 ```bash
 resipy cat.jpg -vw
 ```
-to zoom in press `<Ctrl-+>` (Ctrl and -), to zoom out press `<Ctrl-+>` (Ctrl and +)
+to zoom in press `<Ctrl-+>` (Ctrl and -), to zoom out press `<Ctrl-->` (Ctrl and +)  
+gif image does not support zooming
 
 
