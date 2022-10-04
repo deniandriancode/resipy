@@ -27,11 +27,11 @@ image_format = {
 # if function does not return value, then return 0 to
 # indicate that it run successfully
 #
-# TODO : how to disable echo / print in python
 # TODO : add image support
 # TODO : copy image to multiple names
 # TODO : image->gray
-# TODO : image viewer zoom
+# TODO : image viewer zoom (gif support)
+# TODO : proper verbose image
 #
 ###########################################################
 

@@ -3,9 +3,7 @@
 Command line utility to resize multiple images  
 
 ```
-usage: resipy [-h] [-q | -v | -V] [-t | -r] [-p PERCENT | -s WIDTH HEIGHT]
-              [-n [NAME ...]] [-f]
-              [FILE ...]
+usage: resipy [-h] [-q | -v | -V] [-t | -r] [-p PERCENT | -s WIDTH HEIGHT] [-n [NAME ...]] [-f] [-vw] [FILE ...]
 
 Command line utility to resize multiple images
 
@@ -22,19 +20,20 @@ options:
   -p PERCENT, --percent PERCENT
                         specify the output size by percentage (0.0 - 1.0)
   -s WIDTH HEIGHT, --size WIDTH HEIGHT
-                        specify the output size in pixel, if used with
-                        `-t`flag, it will take the smallest value (default 400
-                        240)
+                        specify the output size in pixel, if used with `-t`flag, it will take the smallest value (default 400 240)
   -n [NAME ...], --name [NAME ...]
                         specify the output name, will not change the extension
   -f, --force           override/replace the output file if exists
+  -vw, --view           open/view an image
 ```
 
 ### Supported image format
-- JPG/JPEG
+- BMP
 - GIF
-- WEBP
+- ICO
+- JPG/JPEG
 - PNG
+- WEBP
 
 ### How to use
 
@@ -109,7 +108,12 @@ dog.jpg -> mydog.jpg
 duck.png -> myduck.png
 ```
 
-### TODO
-- more image support
-- proper verbose message
-- resize image to multiple size and name
+### Image Viewer
+**NOTE** : currently image viewer only support single file
+to view an image
+```bash
+resipy cat.jpg -vw
+```
+to zoom in press `<Ctrl-+>` (Ctrl and -), to zoom out press `<Ctrl-+>` (Ctrl and +)
+
+
